@@ -11,42 +11,48 @@ class Router
 
     public function get($route, $controller, $method)
     {
-        //FETCHING PARAMETERS FROM THE URL
-        $params = explode("/", $_GET['route']);
-        //IF PARAMETERS ARE MORE THAN 1
-        if (count($params) > 1) {
-            $exploded_route = explode("/", $route);
-            if (count($params) == count($exploded_route)) {
-                $matching = true;
-                //PARAMETERS TO ADD TO THE METHOD
-                $params_to_method = [];
-                for ($i = 0; $i < count($exploded_route); $i++) {
-                    if ($exploded_route[$i] != $params[$i]) {
-                        $is_paramater = false;
-                        //CHECKING IF THERE IS AN DYNAMIC PARAMETER IN THE URL
-                        if (substr($exploded_route[$i], 0, 1) == "{" && substr($exploded_route[$i],
-                                strlen($exploded_route[$i]) - 1, 1) == "}"
-                        ) {
-                            $param_index = substr($exploded_route[$i], 1, strlen($exploded_route[$i]) - 2);
-                            $is_paramater = true;
-                        }
-                        if (!$is_paramater) {
-                            $matching = false;
-                        } else {
-                            //ADDING PARAMETER VALUE TO THE PARAMETERS
-                            $params_to_method[$param_index] = $params[$i];
+        if (isset($_GET['route'])) {
+            //FETCHING PARAMETERS FROM THE URL
+            $params = explode("/", $_GET['route']);
+            //IF PARAMETERS ARE MORE THAN 1
+            if (count($params) > 1) {
+                $exploded_route = explode("/", $route);
+                if (count($params) == count($exploded_route)) {
+                    $matching = true;
+                    //PARAMETERS TO ADD TO THE METHOD
+                    $params_to_method = [];
+                    for ($i = 0; $i < count($exploded_route); $i++) {
+                        if ($exploded_route[$i] != $params[$i]) {
+                            $is_paramater = false;
+                            //CHECKING IF THERE IS AN DYNAMIC PARAMETER IN THE URL
+                            if (substr($exploded_route[$i], 0, 1) == "{" && substr($exploded_route[$i],
+                                    strlen($exploded_route[$i]) - 1, 1) == "}"
+                            ) {
+                                $param_index = substr($exploded_route[$i], 1, strlen($exploded_route[$i]) - 2);
+                                $is_paramater = true;
+                            }
+                            if (!$is_paramater) {
+                                $matching = false;
+                            } else {
+                                //ADDING PARAMETER VALUE TO THE PARAMETERS
+                                $params_to_method[$param_index] = $params[$i];
+                            }
                         }
                     }
+                    if ($matching) {
+                        //CALLING THE METHOD WITH PARAMETERS
+                        echo $this->callMethod($controller, $method, $params_to_method);
+                    }
                 }
-                if ($matching) {
-                    //CALLING THE METHOD WITH PARAMETERS
-                    echo $this->callMethod($controller, $method, $params_to_method);
+            } else {
+                //IF ROUTE PARAMETER IS EQUAL TO THE ROUTE
+                if ($route == $_GET['route']) {
+                    //CALL CONTROLLER METHOD
+                    echo $this->callMethod($controller, $method);
                 }
             }
-        } else {
-            //IF ROUTE PARAMETER IS EQUAL TO THE ROUTE
-            if ($route == $_GET['route']) {
-                //CALL CONTROLLER METHOD
+        }else{
+            if($route == "/"){
                 echo $this->callMethod($controller, $method);
             }
         }
