@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers;
-
 use App\Classes\DB;
 use App\Models\Job;
 
