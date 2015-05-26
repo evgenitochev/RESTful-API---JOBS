@@ -1,14 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yoan
- * Date: 15-5-25
- * Time: 15:39
- */
-
 namespace App\Classes;
 
 
-class DB {
+class DB
+{
+    private static $con = null;
 
+    public static function query($query)
+    {
+        if (self::$con == null) {
+            self::$con = mysqli_connect('localhost', 'root', 'root', 'api');
+        }
+
+        return self::$con->query($query);
+    }
 }
