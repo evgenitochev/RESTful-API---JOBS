@@ -1,0 +1,17 @@
+{
+  "require": {},
+  "autoload": {
+    "psr-0": {
+      "Core\\": "Core/",
+      "App\\": "App/"
+    },
+    "files": [
+      "Core/functions.php"
+    ],
+    "classmap": [
+      "App/",
+      "Core/"
+    ]
+  },
+  "minimum-stability": "dev"
+}
