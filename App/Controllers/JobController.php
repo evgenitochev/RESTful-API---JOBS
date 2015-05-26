@@ -1,22 +1,31 @@
 <?php
 namespace App\Controllers;
+
 use App\Classes\DB;
 use App\Models\Job;
 
 class JobController
 {
+    private $job = null;
+
+    public function __construct()
+    {
+        if ($this->job == null) {
+            $this->job = new Job();
+        }
+    }
+
     public function showAll()
     {
-        $job = new Job();
-        $result = $job->showAll();
+        $result = $this->job->all();
 
         return json_encode($result);
     }
 
     public function show($params)
     {
-        $result = DB::query("SELECT * FROM jobs WHERE id = " . $params['id']);
 
+        $result = $this->job->find($params['id']);
         return json_encode($result->fetch_assoc());
     }
 }
