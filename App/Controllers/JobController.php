@@ -2,20 +2,16 @@
 namespace App\Controllers;
 
 use App\Classes\DB;
+use App\Models\Job;
 
 class JobController
 {
     public function showAll()
     {
-        $result = DB::query("SELECT * FROM jobs");
-        $return_arr = [];
-        if ($result->num_rows) {
-            while ($row = $result->fetch_assoc()) {
-                array_push($return_arr, $row);
-            }
-        }
+        $job = new Job();
+        $result = $job->showAll();
 
-        return json_encode($return_arr);
+        return json_encode($result);
     }
 
     public function show($params)
