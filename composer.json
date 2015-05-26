@@ -6,7 +6,8 @@
       "App\\": "App/"
     },
     "files": [
-      "Core/functions.php"
+      "Core/functions.php",
+      "config/app.php"
     ],
     "classmap": [
       "App/",
