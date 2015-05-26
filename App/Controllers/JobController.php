@@ -21,6 +21,7 @@ class JobController
     public function show($params)
     {
         $result = DB::query("SELECT * FROM jobs WHERE id = " . $params['id']);
+
         return json_encode($result->fetch_assoc());
     }
 }
